@@ -3,7 +3,7 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const API = 'http://localhost:8000/api/tasks';
+const API = 'https://task-manager-cqna.onrender.com/api/tasks';
 
 function App() {
   const [tasks, setTasks] = useState([]);
