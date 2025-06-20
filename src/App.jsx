@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 
-const API = 'https://task-manager-cqna.onrender.com/api/tasks';
+const API = 'http://localhost:8000/api/tasks';
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState('');
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState('');
 
   const fetchTasks = async () => {
     const res = await axios.get(API);
@@ -20,10 +18,10 @@ function App() {
     await axios.post(API, {
       title,
       status: 'Pending',
-      createdAt: date ? date.toISOString() : new Date().toISOString(),
+      createdAt: date ? new Date(date).toISOString() : new Date().toISOString(),
     });
     setTitle('');
-    setDate(null);
+    setDate('');
     fetchTasks();
   };
 
@@ -49,7 +47,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-800 to-slate-900 text-white px-4 py-10">
-      <h1 className="text-5xl font-extrabold text-center text-white mb-10">🗓️ Task Manager</h1>
+      <h1 className="text-5xl font-extrabold text-center text-white mb-10">📝 Task Manager</h1>
 
       <div className="w-full max-w-7xl mx-auto bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20">
         {/* Input Section */}
@@ -61,11 +59,10 @@ function App() {
             placeholder="What needs to be done?"
             className="w-full sm:flex-1 px-4 py-3 text-white bg-white/10 rounded-lg border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-300"
           />
-          <DatePicker
-            selected={date}
-            onChange={(date) => setDate(date)}
-            placeholderText="Select date"
-            dateFormat="yyyy-MM-dd"
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
             className="w-full sm:w-48 px-4 py-3 text-white bg-white/10 rounded-lg border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
